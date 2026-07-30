@@ -120,24 +120,8 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#the-aggregated-network" id="toc-the-aggregated-network" class="nav-link active" data-scroll-target="#the-aggregated-network">The Aggregated Network</a></li>
-  <li><a href="#growth-over-time" id="toc-growth-over-time" class="nav-link" data-scroll-target="#growth-over-time">Growth Over Time</a></li>
-  <li><a href="#who-emails-whom" id="toc-who-emails-whom" class="nav-link" data-scroll-target="#who-emails-whom">Who Emails Whom?</a></li>
-  <li><a href="#temporal-ergm-results" id="toc-temporal-ergm-results" class="nav-link" data-scroll-target="#temporal-ergm-results">Temporal ERGM Results</a>
-  <ul class="collapse">
-  <li><a href="#goodness-of-fit" id="toc-goodness-of-fit" class="nav-link" data-scroll-target="#goodness-of-fit">Goodness of Fit</a></li>
-  </ul></li>
-  <li><a href="#brokerage-and-sex" id="toc-brokerage-and-sex" class="nav-link" data-scroll-target="#brokerage-and-sex">Brokerage and Sex</a></li>
-  <li><a href="#most-active-members" id="toc-most-active-members" class="nav-link" data-scroll-target="#most-active-members">Most Active Members</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
-  <li><a href="#time-series-extension" id="toc-time-series-extension" class="nav-link" data-scroll-target="#time-series-extension">Time Series Extension</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -145,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Data Visualizations</h1>
-<p class="subtitle lead">Epstein Email Network — Charts, Models, and Interpretation</p>
+<p class="subtitle lead">Charts, models, and interpretation across projects</p>
 </div>
 
 
@@ -162,9 +146,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This page walks through the visual and statistical results from the Epstein email network project. For the full modeling code and diagnostics, see the <a href="./projects.html">project write-up</a> or get in touch via the Contact page.</p>
-<section id="the-aggregated-network" class="level2">
-<h2 class="anchored" data-anchor-id="the-aggregated-network">The Aggregated Network</h2>
+<p>This page walks through the visual and statistical results from a few of my ongoing projects.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Epstein Email Network</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Political Podcast Text Analysis</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>For the full modeling code and diagnostics, see the <a href="./projects.html">project write-up</a> or get in touch via the Contact page.</p>
+<section id="the-aggregated-network" class="level3">
+<h3 class="anchored" data-anchor-id="the-aggregated-network">The Aggregated Network</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/dataviz/aggregated-network.png" class="img-fluid figure-img" style="width:85.0%"></p>
@@ -173,8 +162,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>The pooled network shows the classic core–periphery shape of an ego-anchored corpus: a dense communicative core surrounded by hundreds of low-degree contacts extending outward in long chains.</p>
 </section>
-<section id="growth-over-time" class="level2">
-<h2 class="anchored" data-anchor-id="growth-over-time">Growth Over Time</h2>
+<section id="growth-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="growth-over-time">Growth Over Time</h3>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -197,8 +186,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>Activity is sparse before Epstein’s 2008 plea agreement and climbs steadily afterward, motivating the decision to estimate the final model on the 2009–2019 window rather than the full 2000–2020 panel.</p>
 </section>
-<section id="who-emails-whom" class="level2">
-<h2 class="anchored" data-anchor-id="who-emails-whom">Who Emails Whom?</h2>
+<section id="who-emails-whom" class="level3">
+<h3 class="anchored" data-anchor-id="who-emails-whom">Who Emails Whom?</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/dataviz/who-emails-whom.png" class="img-fluid figure-img" style="width:70.0%"></p>
@@ -207,8 +196,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>A first descriptive look at same-sex clustering: male senders direct 70% of their ties to other men, while female senders direct 63% of theirs to men — women’s outgoing ties are noticeably less sex-segregated than men’s. This descriptive pattern alone can’t separate real homophily from confounds like reciprocity or degree heterogeneity, which is exactly what the temporal ERGM below is built to isolate.</p>
 </section>
-<section id="temporal-ergm-results" class="level2">
-<h2 class="anchored" data-anchor-id="temporal-ergm-results">Temporal ERGM Results</h2>
+<section id="temporal-ergm-results" class="level3">
+<h3 class="anchored" data-anchor-id="temporal-ergm-results">Temporal ERGM Results</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/dataviz/tergm-table.png" class="img-fluid figure-img" style="width:90.0%"></p>
@@ -227,8 +216,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Homophily (H2):</strong> Same-sex ties are 15.7% more likely to form than mixed-sex ties (OR = 1.16).</li>
 </ul>
 <p>The sex main effects reveal an asymmetry beyond the homophily result: male senders are significantly <em>less</em> likely to initiate ties (OR = 0.75), while male receivers are significantly <em>more</em> likely to receive them (OR = 1.16) — women disproportionately write, men are disproportionately written to.</p>
-<section id="goodness-of-fit" class="level3">
-<h3 class="anchored" data-anchor-id="goodness-of-fit">Goodness of Fit</h3>
+<section id="goodness-of-fit" class="level4">
+<h4 class="anchored" data-anchor-id="goodness-of-fit">Goodness of Fit</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/dataviz/gof-rocpr.png" class="img-fluid figure-img" style="width:70.0%"></p>
@@ -238,8 +227,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Out-of-sample tie prediction is strong, though a substantial share of that performance is carried by the memory (tie-persistence) term — persistence, not novelty, dominates elite email networks.</p>
 </section>
 </section>
-<section id="brokerage-and-sex" class="level2">
-<h2 class="anchored" data-anchor-id="brokerage-and-sex">Brokerage and Sex</h2>
+<section id="brokerage-and-sex" class="level3">
+<h3 class="anchored" data-anchor-id="brokerage-and-sex">Brokerage and Sex</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/dataviz/brokerage-density.png" class="img-fluid figure-img" style="width:80.0%"></p>
@@ -255,8 +244,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>Restricting to nodes with actual brokerage opportunity (constraint &lt; 1) and controlling for year fixed effects, the sex gap is statistically significant (β = 0.160, 95% CI [0.057, 0.263], z = 3.05, N = 1,482): women disproportionately occupy the broker-like positions in this network, net of temporal trends.</p>
 </section>
-<section id="most-active-members" class="level2">
-<h2 class="anchored" data-anchor-id="most-active-members">Most Active Members</h2>
+<section id="most-active-members" class="level3">
+<h3 class="anchored" data-anchor-id="most-active-members">Most Active Members</h3>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -278,12 +267,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
 <!-- Your interpretation section goes here -->
 </section>
-<section id="time-series-extension" class="level2">
-<h2 class="anchored" data-anchor-id="time-series-extension">Time Series Extension</h2>
+<section id="time-series-extension" class="level3">
+<h3 class="anchored" data-anchor-id="time-series-extension">Time Series Extension</h3>
 <p>A separate analysis models monthly email volume and redaction density as time series (<code>auto.arima()</code>), and disaggregates redaction density by gender dyad and by Epstein’s direct involvement.</p>
 <p><strong>Temporal baseline:</strong> the aggregate redaction density series requires a drift term to fit — ARIMA(1,1,1) with drift, confirming a systematic upward trend across 2010–2019. That drift disappears entirely in the subset of emails not directly involving Epstein — ARIMA(0,1,1), no drift — suggesting the upward trend is concentrated in Epstein-involved correspondence rather than being network-wide.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -302,9 +291,15 @@ ul.task-list li input[type="checkbox"] {
 <p>Disaggregating by Epstein involvement shows where this pattern actually lives. In the <em>From Epstein</em> panel, all four dyads cluster low with no meaningful gender ordering — Epstein’s own outgoing emails are uniformly lightly redacted regardless of recipient sex. The <em>To Epstein</em> panel shows modest differentiation but no strong trend. The gender effect is concentrated almost entirely in the <em>No Epstein</em> panel, where F→F and F→M redaction density rise steadily and diverge from the male-sender dyads — suggesting this is a property of the broader network, not of Epstein’s direct correspondence.</p>
 <p>Read together with the network results: women were significantly more likely to initiate ties, occupied a significant (if modest) brokerage advantage, and their communications — particularly with other women — were the most heavily redacted in the corpus. Women’s roles in this network were both structurally central and disproportionately sensitive.</p>
 <p><strong>Limitations:</strong> gender assignment relied on fuzzy matching and probabilistic inference, and some names were dropped where assignment failed. Redaction density is a proxy — the underlying redaction decisions, legal framework, and any changes to FOIA processing standards over the period aren’t observable from the data. The gender dyad and Epstein-involvement breakdowns above are descriptive; no formal interaction model (e.g.&nbsp;mixed effects, interrupted time series) has yet tested these differences directly.</p>
-
-
 </section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<!-- Framing Fingerprint visualizations go here -->
+</div>
+</div>
+</div>
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

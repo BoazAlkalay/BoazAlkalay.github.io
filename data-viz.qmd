@@ -1,17 +1,23 @@
 ---
 title: "Data Visualizations"
-subtitle: "Epstein Email Network — Charts, Models, and Interpretation"
+subtitle: "Charts, models, and interpretation across projects"
 ---
 
-This page walks through the visual and statistical results from the Epstein email network project. For the full modeling code and diagnostics, see the [project write-up](projects.qmd) or get in touch via the Contact page.
+This page walks through the visual and statistical results from a few of my ongoing projects.
 
-## The Aggregated Network
+::: {.panel-tabset}
+
+## Epstein Email Network
+
+For the full modeling code and diagnostics, see the [project write-up](projects.qmd) or get in touch via the Contact page.
+
+### The Aggregated Network
 
 ![987 non-isolate nodes, 21 yearly waves pooled. All identities are intentionally suppressed — the analysis concerns network structure, not the identification of individuals.](img/dataviz/aggregated-network.png){fig-align="center" width="85%"}
 
 The pooled network shows the classic core–periphery shape of an ego-anchored corpus: a dense communicative core surrounded by hundreds of low-degree contacts extending outward in long chains.
 
-## Growth Over Time
+### Growth Over Time
 
 ::: {layout-ncol=2}
 ![Network activity by year — unique dyads, senders, and receivers.](img/dataviz/network-activity-by-year.png){fig-align="center"}
@@ -21,13 +27,13 @@ The pooled network shows the classic core–periphery shape of an ego-anchored c
 
 Activity is sparse before Epstein's 2008 plea agreement and climbs steadily afterward, motivating the decision to estimate the final model on the 2009–2019 window rather than the full 2000–2020 panel.
 
-## Who Emails Whom?
+### Who Emails Whom?
 
 ![Share of each sender group's ties, by recipient sex.](img/dataviz/who-emails-whom.png){fig-align="center" width="70%"}
 
 A first descriptive look at same-sex clustering: male senders direct 70% of their ties to other men, while female senders direct 63% of theirs to men — women's outgoing ties are noticeably less sex-segregated than men's. This descriptive pattern alone can't separate real homophily from confounds like reciprocity or degree heterogeneity, which is exactly what the temporal ERGM below is built to isolate.
 
-## Temporal ERGM Results
+### Temporal ERGM Results
 
 ![TERGM final model — 20 time steps. Bootstrap 95% CIs (R = 1,000); asterisk marks CIs that exclude zero.](img/dataviz/tergm-table.png){fig-align="center" width="90%"}
 
@@ -40,13 +46,13 @@ Both hypotheses are supported, net of reciprocity, tie persistence, transitivity
 
 The sex main effects reveal an asymmetry beyond the homophily result: male senders are significantly *less* likely to initiate ties (OR = 0.75), while male receivers are significantly *more* likely to receive them (OR = 1.16) — women disproportionately write, men are disproportionately written to.
 
-### Goodness of Fit
+#### Goodness of Fit
 
 ![ROC and Precision-Recall curves for the final model.](img/dataviz/gof-rocpr.png){fig-align="center" width="70%"}
 
 Out-of-sample tie prediction is strong, though a substantial share of that performance is carried by the memory (tie-persistence) term — persistence, not novelty, dominates elite email networks.
 
-## Brokerage and Sex
+### Brokerage and Sex
 
 ![Lagged Burt's constraint by sex, active node-years 2009–2019. Lower values indicate more broker-like positioning; dashed lines mark group means.](img/dataviz/brokerage-density.png){fig-align="center" width="80%"}
 
@@ -56,7 +62,7 @@ The supplementary question behind H1: who actually occupies the brokerage positi
 
 Restricting to nodes with actual brokerage opportunity (constraint < 1) and controlling for year fixed effects, the sex gap is statistically significant (β = 0.160, 95% CI [0.057, 0.263], z = 3.05, N = 1,482): women disproportionately occupy the broker-like positions in this network, net of temporal trends.
 
-## Most Active Members
+### Most Active Members
 
 ::: {layout-ncol=2}
 ![Top nodes by total degree.](img/dataviz/NetworkPlot_Top100.png){fig-align="center"}
@@ -64,11 +70,11 @@ Restricting to nodes with actual brokerage opportunity (constraint < 1) and cont
 ![Top 100 nodes by degree — 67 male, 33 female.](img/dataviz/NetworkPlot_Poster.png){fig-align="center"}
 :::
 
-## Interpretation
+### Interpretation
 
 <!-- Your interpretation section goes here -->
 
-## Time Series Extension
+### Time Series Extension
 
 A separate analysis models monthly email volume and redaction density as time series (`auto.arima()`), and disaggregates redaction density by gender dyad and by Epstein's direct involvement.
 
@@ -85,3 +91,9 @@ Disaggregating by Epstein involvement shows where this pattern actually lives. I
 Read together with the network results: women were significantly more likely to initiate ties, occupied a significant (if modest) brokerage advantage, and their communications — particularly with other women — were the most heavily redacted in the corpus. Women's roles in this network were both structurally central and disproportionately sensitive.
 
 **Limitations:** gender assignment relied on fuzzy matching and probabilistic inference, and some names were dropped where assignment failed. Redaction density is a proxy — the underlying redaction decisions, legal framework, and any changes to FOIA processing standards over the period aren't observable from the data. The gender dyad and Epstein-involvement breakdowns above are descriptive; no formal interaction model (e.g. mixed effects, interrupted time series) has yet tested these differences directly.
+
+## Political Podcast Text Analysis
+
+<!-- Framing Fingerprint visualizations go here -->
+
+:::
