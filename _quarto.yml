@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - "*.qmd"
+    - "!epstein-timeseries.qmd"
   
 website:
   title: "Boaz Alkalay"
@@ -11,6 +14,8 @@ website:
       - href: about.qmd
         text: About
       - projects.qmd
+      - href: data-viz.qmd
+        text: Data Viz
     tools:
       - icon: envelope
         href: "mailto:boazalk@gmail.com"

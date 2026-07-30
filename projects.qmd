@@ -5,6 +5,21 @@ title: "Projects"
 
 ## Project 1: Epstein Email Network
 
+The Department of Justice's release of the Epstein email records offers a rare chance to observe an elite communication network directly rather than through court testimony or journalistic reconstruction. With two collaborators, I built a Python pipeline that extracts headers from roughly 1.4 million released email records — classifying pages with dual OCR engines, locating redactions with a fine-tuned Mask R-CNN, and recovering sender and recipient fields — then resolved names in R through a six-pass matching pipeline into a longitudinal directed network of 990 confirmed individuals across 21 yearly waves (2000–2020), totaling 6,250 unique communication ties.
+
+The network is modeled with Bootstrapped Temporal Exponential Random Graph Models (BTERGM) to test two hypotheses drawn from the literature on brokerage and gendered social capital:
+
+- **H1:** Actors in structural brokerage positions (low lagged Burt's constraint) are disproportionately active in tie formation.
+- **H2:** Ties form disproportionately between individuals of the same sex.
+
+Both hypotheses are supported. Low-constraint brokers are significantly more likely to send and receive ties, and same-sex dyads are 15.7% more likely to form than mixed-sex dyads, net of reciprocity, transitivity, and tie persistence. A secondary finding shows an asymmetric sex pattern: women are significantly more likely to initiate ties, while men are significantly more likely to receive them — women disproportionately write, men are disproportionately written to. A follow-up beta regression on Burt's constraint (restricted to nodes with actual brokerage opportunity) finds women occupy significantly more broker-like positions than men, net of year fixed effects.
+
+A time series extension separately models monthly redaction density with `auto.arima()`. The aggregate series shows a clear upward drift trend — which disappears when emails not directly involving Epstein are modeled alone, suggesting the drift tracks his centrality specifically rather than a general feature of the corpus. Redaction density also carries a stable gender pattern: F→F communications are the most heavily redacted, concentrated almost entirely among non-Epstein actors.
+
+This work was completed in collaboration with Mark Scott and Elizabeth Miller, and won Best Master's Project at the computational social science fair.
+
+[Data visualizations & full results](data-viz.qmd) · [GitHub](https://github.com/BoazAlkalay)
+
 ## Project 2: Political Podcast Text Analysis
 
 # Personal Projects

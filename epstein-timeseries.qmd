@@ -1,0 +1,368 @@
+---
+title: "Redaction, Gender, and the Epstein Network: A Time Series Analysis"
+subtitle: "A Network Analysis of the Epstein Emails"
+author: "Boaz Alkalay"
+date: today
+format:
+  html:
+    df-print: paged
+    css: "styles.css"
+    embed-resources: true
+    self-contained-math: true
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    toc-title: "Navigation"
+---
+::: {.callout-note}
+## Preliminary Draft
+This paper represents a preliminary analysis completed under significant time constraints. 
+I intend to continue this work, including more complete gender assignment, formal inferential modeling, and integration of email body text. Findings should be interpreted accordingly.
+:::
+
+## Introduction & Theory
+
+Many novels could, will, and have been written about the now-dead child sex trafficker and New York financier Jeffrey Epstein. He was incredibly well connected, claiming to manage money for — and otherwise implicating — the most monied and powerful members of global society. His circle was so stacked with celebrities, CEOs, politicians, presidents, and billionaires that some now use the phrase "Epstein Class" to refer to this global elite who mold the world for the purpose of their continued extraction and wealth hoarding. Epstein has become a useful way to semantically link all of these figures and global monetary interests which prevent any kind of redistributive or egalitarian motion on the global stage. They are so pervasive that we feel his and their impact in surprising places — from microtransactions in video games to the hypersexualization of preteen culture in the 90s and 2000s, guided by executives with close ties to Epstein.
+
+This conspiracy is too wide-reaching for full treatment here, and this topic deserves much more explanation than is prudent in this paper. Moreover, this paper is a continuation of a project completed for a social network inferencing class, from which the data is sourced. A poster produced for that class is included, but in brief: we downloaded over 3 million files from the DOJ website and attempted to process them. The files were heavily redacted and were classified into email and non-email categories. A Mask R-CNN convolutional neural network then drew bounding boxes around redacted regions, recording their position and size. We used OCR — with these regions masked — to collect sender and receiver names and body text, and calculated a redaction density metric from the bounding box data.
+
+The majority of work on this project was focused on the collection and processing of those roughly 3 million files. The main covariate we were able to rely on for our network project was gender, determined through a combination of Wikipedia and database scraping as well as the R package `predictrace`. Alongside being the most reliable covariate, gender was of particular interest given the nature of this network and the crimes it entails.
+
+Women are an incredibly useful asset in sex trafficking networks because of their ability to connect with and deceive female victims. Under patriarchy, women are frequent victims of violence, sexual and otherwise, and the perpetrators are most often men — frequently those connected intimately to the victims. Because of their shared victimhood under systemic violence, women are more likely to trust other women, who in sex trafficking contexts can function as wolves in sheep's clothing. However, it is clear that patriarchy is not actually about gender — it is about power, those who wield it, and those against whom it can be wielded. Like all systems of domination, it is a framework that facilitates and legitimizes violence.
+
+We found one social network paper describing sex trafficking networks, and our TERGM results support its conclusions. Women were significantly more likely to occupy brokerage positions, net of year fixed effects, though the effect size is modest (β = 0.160 on the logit scale). Women were also significantly more likely to be the initiating party as email senders, while men were modestly but significantly more likely to be receivers — suggesting that even within sex trafficking networks, men benefit from and take credit for labor disproportionately performed by women.
+
+Due to the complexity of data acquisition and the time it required, we were unable to fully utilize what we collected. Although we collected the body text of all processed emails, we were unable to conduct analysis with vector embeddings. Redaction density was also unused in the network poster. Therefore, in this project — bounded by short turnaround time once the data was finally collected — I use time series analysis to explore the intersection between gender and redaction density.
+
+### Hypotheses
+
+$H_{1}$: Redaction density will vary systematically by the gender composition of sender–receiver pairs. Given the operational role women played in this network, we expect female-involved communications to exhibit higher redaction density than male-dominated ones.
+
+$H_{2}$: Emails not directly sent or received by Jeffrey Epstein will exhibit higher 
+average redaction density. Communications among peripheral network actors — those doing the day-to-day operational work — are more likely to contain sensitive content than Epstein's own correspondence.
+
+## Methods & Results
+
+This analysis proceeds in two stages. First, we establish a temporal baseline using ARIMA modeling on monthly email volume and redaction density. Second, we disaggregate redaction density by gender dyad and Epstein involvement to address our substantive hypotheses.
+
+### Data Preparation
+
+From the processed email dataset, we retained sender, receiver, date, and redaction density. Self-loops were removed. Gender was assigned to senders and receivers via fuzzy join (maximum edit distance of 3, optimal string alignment) between cleaned name lists and a gender-coded nodelist derived from Wikipedia scraping and the predictrace package. Emails where gender could not be assigned to either sender or receiver were dropped. The final dataset was filtered to January 2010 through June 2019. Each email was additionally coded for Epstein involvement: emails sent by Epstein ("From Epstein"), emails received by Epstein ("To Epstein"), and emails between other actors ("No Epstein").
+
+
+
+```{r}
+#| label: setup
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(dplyr)
+library(forecast)
+library(tseries)
+library(astsa)
+
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+```
+
+
+
+```{r}
+# Chunk 1: Load data
+EdgeList_f_ts <- read.csv("HeadersFinal.csv") |>
+  select(year, date, sender, receiver, redaction_density_pct) |> 
+  filter(sender != receiver)
+CleanNames <- read.csv("CleanCleanNames.csv") |> 
+  distinct()
+NodeList <- read.csv("NodeList_gender.csv")
+```
+
+
+```{r}
+# Chunk 2: Gender join
+library(fuzzyjoin)
+library(dplyr)
+
+nodelist_unique <- NodeList |>
+  select(node, sex) |>
+  distinct(node, .keep_all = TRUE)
+
+clean_with_sex <- CleanNames |>
+  stringdist_left_join(
+    nodelist_unique,
+    by = c("CleanNames" = "node"),
+    max_dist = 3,
+    method = "osa"
+  ) |>
+  filter(!is.na(sex)) |>
+  select(CleanNames, sex) |>
+  distinct(CleanNames, .keep_all = TRUE)
+
+EdgeList_f_ts <- EdgeList_f_ts |>
+  left_join(clean_with_sex, by = c("sender" = "CleanNames")) |>
+  rename(sex_sender = sex) |>
+  left_join(clean_with_sex, by = c("receiver" = "CleanNames")) |>
+  rename(sex_receiver = sex) |>
+  filter(!is.na(sex_sender), !is.na(sex_receiver))
+
+```
+
+```{r}
+# Chunk 3: Parse dates, add Epstein group, filter to 2010-2019
+library(lubridate)
+
+edgelist <- EdgeList_f_ts |>
+  mutate(
+    date = dmy(date),
+    month_year = floor_date(date, unit = "month"),
+    week_year = floor_date(date, unit = "week"),
+    sender_is_epstein   = tolower(sender)   == "jeffrey epstein",
+    receiver_is_epstein = tolower(receiver) == "jeffrey epstein",
+    epstein_group = case_when(
+      sender_is_epstein   ~ "from_epstein",
+      receiver_is_epstein ~ "to_epstein",
+      TRUE                ~ "no_epstein"
+    )
+  )
+
+edgelist_final <- edgelist |>
+  filter(month_year >= "2010-01-01" & month_year <= "2019-06-01")
+
+```
+
+```{r}
+# Chunk 4: Email volume plot
+edgelist_final |> 
+  count(month_year) |>
+  ggplot(aes(x = month_year, y = n)) +
+  geom_col() +
+  labs(title = "Email volume by month", x = NULL, y = "edges")
+
+edgelist_final |> 
+  count(week_year) |>
+  ggplot(aes(x = week_year, y = n)) +
+  geom_col() +
+  labs(title = "Email volume by week", x = NULL, y = "edges")
+
+```
+
+```{r}
+#| eval: false
+# Chunk 5: Redaction by Epstein group
+edgelist_final |>
+  group_by(month_year, epstein_group) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = month_year, y = avg_redaction, color = epstein_group)) +
+  geom_line() +
+  labs(title = "Monthly Redaction Density by Epstein Involvement",
+       x = NULL, y = "Avg Redaction Density (%)", color = NULL) +
+  theme_minimal()
+
+
+edgelist_final |>
+  group_by(week_year, epstein_group) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = week_year, y = avg_redaction, color = epstein_group)) +
+  geom_line() +
+  labs(title = "Weekly Redaction Density by Epstein Involvement",
+       x = NULL, y = "Avg Redaction Density (%)", color = NULL) +
+  theme_minimal()
+```
+
+```{r}
+#| eval: false
+# Redaction by gender dyad
+edgelist_final |>
+  mutate(gender_dyad = paste(sex_sender, sex_receiver, sep = " -> ")) |>
+  group_by(month_year, gender_dyad) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = month_year, y = avg_redaction, color = gender_dyad)) +
+  geom_line() +
+  labs(title = "Monthly Redaction Density by Gender Dyad",
+       x = NULL, y = "Avg Redaction Density (%)", color = NULL) +
+  theme_minimal()
+
+edgelist_final |>
+  mutate(gender_dyad = paste(sex_sender, sex_receiver, sep = " -> ")) |>
+  group_by(week_year, gender_dyad) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = week_year, y = avg_redaction, color = gender_dyad)) +
+  geom_line() +
+  labs(title = "Weekly Redaction Density by Gender Dyad",
+       x = NULL, y = "Avg Redaction Density (%)", color = NULL) +
+  theme_minimal()
+```
+
+
+### Temporal Baseline
+Monthly email volume was modeled as a time series (frequency = 12). The ACF and PACF suggested a non-seasonal, non-stationary series. auto.arima() selected ARIMA(0,1,1) for email volume, indicating that after first differencing, the series is consistent with a moving average process — unexpected shocks to email volume tend to be short-lived and partially reversed the following month.
+
+For aggregate redaction density, auto.arima() selected ARIMA(1,1,1) with drift. The drift term is substantively meaningful: it confirms a systematic upward trend in redaction density across the full period, independent of short-term fluctuations. The AR(1) coefficient (0.44) indicates moderate month-to-month persistence, while the MA(1) coefficient (-0.89) reflects strong short-term correction.
+
+When the same model was fit to the No Epstein subset alone, auto.arima() selected ARIMA(0,1,1) without drift. The disappearance of the drift term suggests that the systematic upward trend observed in the aggregate series is at least partially driven by the changing composition of Epstein-involved emails over time rather than a uniform increase across the network. The higher residual variance in the No Epstein model (σ² = 5.15 vs 2.21) reflects the greater month-to-month noise visible in that subseries.
+
+```{r}
+# Chunk 6: Time series
+monthly_ts <- edgelist_final |>
+  count(month_year) |>
+  complete(month_year = seq(min(month_year), max(month_year), by = "month"), 
+           fill = list(n = 0)) |>
+  arrange(month_year)
+
+email_ts <- ts(monthly_ts$n, start = c(2010, 1), frequency = 12)
+plot(email_ts)
+
+weekly_ts <- edgelist_final |>
+  count(week_year) |>
+  complete(week_year = seq(min(week_year), max(week_year), by = "week"), 
+           fill = list(n = 0)) |>
+  arrange(week_year)
+
+weekly_email_ts <- ts(weekly_ts$n, start = c(2010, 1), frequency = 52)
+plot(weekly_email_ts)
+```
+
+
+```{r}
+# Chunk 7: ACF
+acf2(email_ts)
+acf2(weekly_email_ts)
+```
+
+
+```{r}
+# Monthly average redaction density as time series
+redaction_ts_data <- edgelist_final |>
+  group_by(month_year) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  complete(month_year = seq(min(month_year), max(month_year), by = "month"),
+           fill = list(avg_redaction = NA)) |>
+  arrange(month_year)
+
+redaction_ts <- ts(redaction_ts_data$avg_redaction, start = c(2010, 1), frequency = 12)
+plot(redaction_ts)
+acf2(redaction_ts)
+auto.arima(redaction_ts)
+```
+
+```{r}
+redaction_ts_noepstein <- edgelist_final |>
+  filter(epstein_group == "no_epstein") |>
+  group_by(month_year) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  complete(month_year = seq(min(month_year), max(month_year), by = "month"),
+           fill = list(avg_redaction = NA)) |>
+  arrange(month_year)
+
+redaction_ts_ne <- ts(redaction_ts_noepstein$avg_redaction, start = c(2010, 1), frequency = 12)
+plot(redaction_ts_ne)
+acf2(redaction_ts_ne)
+auto.arima(redaction_ts_ne)
+```
+
+### Exploratory: Gender Dyad Trends
+
+```{r}
+
+# Step 1: Add smoothed trend lines
+edgelist_final |>
+  mutate(gender_dyad = paste(sex_sender, sex_receiver, sep = " -> ")) |>
+  group_by(month_year, gender_dyad) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = month_year, y = avg_redaction, color = gender_dyad)) +
+  geom_line(alpha = 0.3) +
+  geom_smooth(se = FALSE, linewidth = 1) +
+  labs(title = "Monthly Redaction Density by Gender Dyad",
+       x = NULL, y = "Avg Redaction Density (%)", color = NULL) +
+  theme_minimal()
+
+edgelist_final |>
+  mutate(gender_dyad = paste(sex_sender, sex_receiver, sep = " -> ")) |>
+  group_by(week_year, gender_dyad) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = week_year, y = avg_redaction, color = gender_dyad)) +
+  geom_line(alpha = 0.3) +
+  geom_smooth(se = FALSE, linewidth = 1) +
+  labs(title = "Weekly Redaction Density by Gender Dyad",
+       x = NULL, y = "Avg Redaction Density (%)", color = NULL) +
+  theme_minimal()
+```
+
+### Weekly Faceted Graph
+```{r}
+# Weekly final faceted version
+edgelist_final |>
+  mutate(
+    gender_dyad = paste(sex_sender, sex_receiver, sep = " -> "),
+    epstein_label = case_when(
+      epstein_group == "from_epstein" ~ "From Epstein",
+      epstein_group == "to_epstein"   ~ "To Epstein",
+      epstein_group == "no_epstein"   ~ "No Epstein"
+    )
+  ) |>
+  group_by(week_year, gender_dyad, epstein_label) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = week_year, y = avg_redaction, color = gender_dyad)) +
+  geom_line(alpha = 0.3) +
+  geom_smooth(se = FALSE, linewidth = 1, method = "loess") +
+  facet_wrap(~ epstein_label, scales = "free_y") +
+  labs(title = "Weekly Redaction Density by Gender Dyad and Epstein Involvement",
+       x = NULL, y = "Avg Redaction Density (%)", color = "Gender Dyad") +
+  theme_minimal()
+
+```
+
+### Monthly Faceted Graph
+```{r}
+# Monthly final version
+edgelist_final |>
+  mutate(
+    gender_dyad = paste(sex_sender, sex_receiver, sep = " -> "),
+    epstein_label = case_when(
+      epstein_group == "from_epstein" ~ "From Epstein",
+      epstein_group == "to_epstein"   ~ "To Epstein",
+      epstein_group == "no_epstein"   ~ "No Epstein"
+    )
+  ) |>
+  group_by(month_year, gender_dyad, epstein_label) |>
+  summarise(avg_redaction = mean(redaction_density_pct, na.rm = TRUE), .groups = "drop") |>
+  ggplot(aes(x = month_year, y = avg_redaction, color = gender_dyad)) +
+  geom_line(alpha = 0.3) +
+  geom_smooth(se = FALSE, linewidth = 1, method = "loess") +
+  facet_wrap(~ epstein_label, scales = "free_y") +
+  labs(title = "Monthly Redaction Density by Gender Dyad and Epstein Involvement",
+       x = NULL, y = "Avg Redaction Density (%)", color = "Gender Dyad") +
+  theme_minimal()
+```
+
+
+
+### Redaction Density by Epstein Involvement
+
+Separating emails by Epstein involvement reveals a consistent pattern: emails among non-Epstein actors carry substantially higher redaction density than emails sent directly by Epstein, and this gap becomes more pronounced in the later years of the dataset. This is consistent with our second hypothesis — Epstein's own correspondence appears to have been redacted on a different and less intensive basis than the broader network's communications, possibly reflecting different redaction standards applied to emails more directly relevant to the investigation versus those of peripheral actors.
+
+### Redaction Density by Gender Dyad
+
+Emails were classified into four gender dyads: F->F, F->M, M->F, and M->M. Monthly average redaction density was computed for each dyad. The ordering is stable across the entire period: F->F carries the highest redaction density, followed by F->M, M->F, and M->M. This ordering is consistent with our first hypothesis and holds across the full dataset.
+
+Disaggregating by Epstein involvement reveals where this effect lives. In the From Epstein panel, all four dyads cluster at low redaction density with no meaningful gender ordering — Epstein's outgoing emails are uniformly lightly redacted regardless of recipient gender. In the To Epstein panel, there is modest differentiation but no strong trend. The gender dyad effect is concentrated almost entirely in the No Epstein panel, where F->F and F->M redaction density rise steadily over the period and diverge markedly from male-sender dyads. This suggests the gender redaction pattern is a property of the broader network rather than a product of Epstein's direct communications.
+This finding extends the network analysis result. Where the TERGM found that women were significantly more likely to be email initiators, the time series analysis finds that those female-initiated communications — particularly F->F — are also the most heavily redacted. Together these findings suggest that women's communications within this network were both structurally central and disproportionately sensitive.
+
+## Discussion & Limitations
+### Discussion
+This analysis set out to examine whether redaction density within the Jeffrey Epstein email network varies systematically by gender composition and Epstein's direct involvement. Both hypotheses are supported by the data.
+The temporal baseline confirms that redaction density is not static — it has risen consistently across the 2010–2019 period. The ARIMA modeling reveals that this trend is not uniform across the network. The aggregate series requires a drift term to fit adequately, while the No Epstein subset does not, suggesting that the upward pressure on redaction density is at least partially concentrated in communications involving Epstein directly rather than being a network-wide phenomenon.
+The gender dyad analysis produces a clear and stable ordering: F->F communications are most heavily redacted, followed by F->M, M->F, and M->M. This ordering holds across the full period and across temporal resolutions. Critically, this effect is concentrated in the No Epstein subset — the communications of the broader network, not Epstein's own correspondence. Epstein's outgoing emails are uniformly lightly redacted regardless of recipient gender, suggesting his direct communications were processed under different redaction standards, possibly because they were more central to the investigation and handled with greater scrutiny and consistency.
+Together with the network analysis findings, a coherent picture emerges. Women in this network were significantly more likely to initiate communications, occupied a significant (if modest) brokerage advantage, and their communications — particularly with other women — were the most heavily redacted. This pattern is consistent with the theoretical framing: women functioned as key operational nodes in this network, and may be what the redactions are most concentrated around.
+
+### Limitations
+Several limitations constrain the interpretation of these findings. First, gender assignment was imperfect — fuzzy matching and probabilistic inference inevitably introduce misclassification, and a substantial portion of names were dropped due to failed gender assignment. It is unclear whether this dropout is random or systematically related to the variables of interest.
+Second, redaction density is a proxy measure. We do not know who made redaction decisions, under what legal framework, or whether redaction standards changed over the period. The upward trend in redaction density could reflect changing FOIA processing practices as much as any property of the underlying communications.
+Third, the ARIMA models treat redaction density as a univariate series. The gender dyad and Epstein involvement disaggregations are descriptive — no formal statistical test of the differences between groups has been conducted. A more rigorous analysis would model redaction density as a function of gender dyad, Epstein involvement, and time simultaneously, potentially using a mixed effects model or interrupted time series design.
+Fourth, the email body text collected during processing was not used in this analysis. Incorporating topic models or vector embeddings as covariates could substantially strengthen the interpretation of redaction patterns, connecting what is being said to what is being hidden.
+Finally, this analysis is necessarily preliminary given the turnaround time constraints. The findings are suggestive and internally consistent, but warrant replication with more complete gender assignment, formal inferential modeling, and integration of the full text data.
+
+## AI Assistance
+
+Portions of this project were completed with the assistance of Claude (Anthropic). AI assistance was used primarily for code debugging and development in R, as well as editing and organizing prose that was largely written by the author. All analytical decisions, interpretations, and theoretical framing are my own.
+
