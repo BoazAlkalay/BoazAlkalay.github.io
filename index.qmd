@@ -1,15 +1,19 @@
 ---
-title: "MyWebsite"
+title: "About Me"
+about:
+  id: me
+  template: broadside
+  image: img/profile.png
 ---
 
-This is a Quarto website.
+:::{#me}
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+## Goals
 
-```{r}
-gh::gh_whoami()
-```
-```{r}
-usethis::use_github(private = FALSE)
-```
+## Education
 
+## Experience
+
+:::
+
+Thanks for checking out my web site!

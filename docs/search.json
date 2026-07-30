@@ -4,7 +4,7 @@
     "href": "projects.html#project-3-noble-house-npc-relationship-map-for-dd",
     "title": "Projects",
     "section": "Project 3: Noble House & NPC Relationship Map for D&D",
-    "text": "Project 3: Noble House & NPC Relationship Map for D&D\n\n \nWhat it does\n\n\nAdd houses and NPCs, wire up relationships between them\nRelationship types auto-filter based on what’s actually valid between the two entities you pick\nRandom name/trait generation for quick NPC creation\nEdit, delete, and reorganize as the campaign evolves — built to survive a messy, long-running edit history\n\nWhy not just a spreadsheet\n\nBuilt with\nR, Shiny, tidygraph/igraph, visNetwork, bslib\n\nLive demo · GitHub"
+    "text": "Project 3: Noble House & NPC Relationship Map for D&D\n\n\n\nWhat it does\n\n\nAdd houses and NPCs, wire up relationships between them\nRelationship types auto-filter based on what’s actually valid between the two entities you pick\nRandom name/trait generation for quick NPC creation\nEdit, delete, and reorganize as the campaign evolves — built to survive a messy, long-running edit history\n\nWhy not just a spreadsheet\n\nBuilt with\nR, Shiny, tidygraph/igraph, visNetwork, bslib\n\nLive demo · GitHub"
   },
   {
     "objectID": "about.html",

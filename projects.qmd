@@ -1,0 +1,36 @@
+---
+title: "Projects"
+---
+# Academic Projects
+
+## Project 1: Epstein Email Network
+
+## Project 2: Political Podcast Text Analysis
+
+# Personal Projects
+
+## Project 3: Noble House & NPC Relationship Map for D&D
+
+<!-- 1-2 sentence hook: the actual problem this solved for your campaign -->
+
+<iframe src="faction-graph-demo.html" width="100%" height="550" style="border:none;"></iframe>
+
+**What it does**
+
+<!-- bullets or a short paragraph -->
+- Add houses and NPCs, wire up relationships between them
+- Relationship types auto-filter based on what's actually valid between the two entities you pick
+- Random name/trait generation for quick NPC creation
+- Edit, delete, and reorganize as the campaign evolves — built to survive a messy, long-running edit history
+
+**Why not just a spreadsheet**
+
+<!-- your own take on why the graph view / relationship logic actually earns its complexity -->
+
+**Built with**
+
+R, Shiny, `tidygraph`/`igraph`, `visNetwork`, `bslib`
+
+<!-- optional: one sentence on a technical decision you found interesting -->
+
+[Live demo](https://boazalkalay.shinyapps.io/faction-relationship-graph/) · [GitHub](https://github.com/boazalkalay/faction-relationship-graph)
