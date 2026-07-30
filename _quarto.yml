@@ -1,21 +1,28 @@
 project:
   type: website
-
+  output-dir: docs
+  
 website:
-  title: "MyWebsite"
+  title: "Boaz Alkalay"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: About
+      - projects.qmd
+    tools:
+      - icon: envelope
+        href: "mailto:boazalk@gmail.com"
+      - icon: github
+        href: https://github.com/BoazAlkalay/BoazAlkalay.github.io
+  page-footer:
+    right: "Built with [Quarto](https://quarto.org/)"
+    left: "&copy; Copyright 2026, Boaz Alkalay"
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
+    theme: cerulean       
     toc: true
-
-editor: visual
+editor: source
 

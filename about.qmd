@@ -1,9 +1,6 @@
 ---
 title: "About"
 ---
+Thank you for looking at my site which is still a work in progress.
 
-About this site
-
-```{r}
-1 + 1
-```
+Feel free to reach out to me at boazalk@gmail.com
