@@ -11,26 +11,25 @@ title: "Projects"
 
 ## Project 3: Noble House & NPC Relationship Map for D&D
 
-<!-- 1-2 sentence hook: the actual problem this solved for your campaign -->
+In one of my classes, we worked with a well-known dataset: the noble houses of Renaissance Florence and the marriages that connected them. The D&D campaign I've been running draws heavily on that same period, and the overlap was hard to ignore — it seemed like a natural excuse to practice social network analysis on something I actually cared about. I built the first version of this project as a Quarto document over winter break, and that's also when I first got excited about the tidygraph and visNetwork ecosystem in R.
+
+Around the same time, I'd been hoping to bring ERGMs — a statistical modeling approach for networks — into some of my other coursework and projects. That didn't pan out: statnet, the package that actually runs them, doesn't work well with tidygraph/igraph objects, and that disappointment ended up bleeding into my enthusiasm here too, since it was riding the same wave of excitement. This project also had its own separate barrier — building out enough houses and NPCs by hand to make the graph worth looking at required a lot of tedious world-building before there was anything interesting to see. Between the two, momentum stalled out over the winter.
+
+What got it moving again was converting the whole thing into a Shiny app, with random name and seed-data generation built in — which solved the world-building barrier directly, and finally made this something worth showing to friends or anyone curious enough to build their own noble house drama.
+
+The Florentine network we studied in class only modeled relationships between the houses themselves. I wanted to go further: a two-mode network that also captures the NPCs, the relationships between individuals, and the ties connecting people to the institutions that shape their lives.
+
+A lot of this could also be handled in Obsidian, which I'm a big proponent of — but the lessons learned and the fun of building it were worth the detour on their own.
+
+Next up: easier ways to bring in existing tables for personality traits, bonds, and flaws, plus homebrew rolling tables for house-level attributes like wealth and industry.
 
 <iframe src="faction-graph-demo.html" width="100%" height="550" style="border:none;"></iframe>
 
 **What it does**
-
-<!-- bullets or a short paragraph -->
 - Add houses and NPCs, wire up relationships between them
 - Relationship types auto-filter based on what's actually valid between the two entities you pick
-- Random name/trait generation for quick NPC creation
-- Edit, delete, and reorganize as the campaign evolves — built to survive a messy, long-running edit history
+- Edit, delete, and reorganize as the campaign evolves
 
-**Why not just a spreadsheet**
-
-<!-- your own take on why the graph view / relationship logic actually earns its complexity -->
-
-**Built with**
-
-R, Shiny, `tidygraph`/`igraph`, `visNetwork`, `bslib`
-
-<!-- optional: one sentence on a technical decision you found interesting -->
+**Built with:** R, Shiny, `tidygraph`/`igraph`, `visNetwork`, `bslib`
 
 [Live demo](https://boazalkalay.shinyapps.io/faction-relationship-graph/) · [GitHub](https://github.com/boazalkalay/faction-relationship-graph)
