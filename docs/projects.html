@@ -163,6 +163,26 @@ ul.task-list li input[type="checkbox"] {
 <h1>Academic Projects</h1>
 <section id="project-1-epstein-email-network" class="level2">
 <h2 class="anchored" data-anchor-id="project-1-epstein-email-network">Project 1: Epstein Email Network</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/projects/redaction-detection-example.png" class="img-fluid figure-img"></p>
+<figcaption>Mask R-CNN redaction detection — each red box is a model-detected redaction, annotated with its confidence score.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/dataviz/NetworkPlot_Poster.png" class="img-fluid figure-img"></p>
+<figcaption>The 100 highest-degree nodes in the pooled communication network.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 <p>The Department of Justice’s release of the Epstein email records offers a rare chance to observe an elite communication network directly rather than through court testimony or journalistic reconstruction. With two collaborators, I built a Python pipeline that extracts headers from roughly 1.4 million released email records — classifying pages with dual OCR engines, locating redactions with a fine-tuned Mask R-CNN, and recovering sender and recipient fields — then resolved names in R through a six-pass matching pipeline into a longitudinal directed network of 990 confirmed individuals across 21 yearly waves (2000–2020), totaling 6,250 unique communication ties.</p>
 <p>The network is modeled with Bootstrapped Temporal Exponential Random Graph Models (BTERGM) to test two hypotheses drawn from the literature on brokerage and gendered social capital:</p>
 <ul>

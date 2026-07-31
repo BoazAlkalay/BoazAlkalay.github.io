@@ -152,6 +152,17 @@ ul.task-list li input[type="checkbox"] {
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>For the full modeling code and diagnostics, see the <a href="./projects.html">project write-up</a> or get in touch via the Contact page.</p>
+<section id="redaction-detection-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="redaction-detection-pipeline">Redaction Detection Pipeline</h3>
+<p>Before any network could be built, every one of the ~1.4 million released pages had to be run through a fine-tuned Mask R-CNN model to locate redactions, paired with dual OCR engines to recover the surrounding text.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/projects/redaction-detection-example.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Mask R-CNN redaction detection on a sample email. Each red box is a model-detected redaction; the small numbers above each box are the model’s confidence score.</figcaption>
+</figure>
+</div>
+<!-- Additional redaction-detection examples and the network-evolution-over-time snapshots go here -->
+</section>
 <section id="the-aggregated-network" class="level3">
 <h3 class="anchored" data-anchor-id="the-aggregated-network">The Aggregated Network</h3>
 <div class="quarto-figure quarto-figure-center">

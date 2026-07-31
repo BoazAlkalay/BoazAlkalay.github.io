@@ -5,6 +5,12 @@ title: "Projects"
 
 ## Project 1: Epstein Email Network
 
+::: {layout-ncol=2}
+![Mask R-CNN redaction detection — each red box is a model-detected redaction, annotated with its confidence score.](img/projects/redaction-detection-example.png){fig-align="center"}
+
+![The 100 highest-degree nodes in the pooled communication network.](img/dataviz/NetworkPlot_Poster.png){fig-align="center"}
+:::
+
 The Department of Justice's release of the Epstein email records offers a rare chance to observe an elite communication network directly rather than through court testimony or journalistic reconstruction. With two collaborators, I built a Python pipeline that extracts headers from roughly 1.4 million released email records — classifying pages with dual OCR engines, locating redactions with a fine-tuned Mask R-CNN, and recovering sender and recipient fields — then resolved names in R through a six-pass matching pipeline into a longitudinal directed network of 990 confirmed individuals across 21 yearly waves (2000–2020), totaling 6,250 unique communication ties.
 
 The network is modeled with Bootstrapped Temporal Exponential Random Graph Models (BTERGM) to test two hypotheses drawn from the literature on brokerage and gendered social capital:

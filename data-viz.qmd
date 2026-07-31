@@ -11,6 +11,14 @@ This page walks through the visual and statistical results from a few of my ongo
 
 For the full modeling code and diagnostics, see the [project write-up](projects.qmd) or get in touch via the Contact page.
 
+### Redaction Detection Pipeline
+
+Before any network could be built, every one of the ~1.4 million released pages had to be run through a fine-tuned Mask R-CNN model to locate redactions, paired with dual OCR engines to recover the surrounding text.
+
+![Mask R-CNN redaction detection on a sample email. Each red box is a model-detected redaction; the small numbers above each box are the model's confidence score.](img/projects/redaction-detection-example.png){fig-align="center" width="70%"}
+
+<!-- Additional redaction-detection examples and the network-evolution-over-time snapshots go here -->
+
 ### The Aggregated Network
 
 ![987 non-isolate nodes, 21 yearly waves pooled. All identities are intentionally suppressed — the analysis concerns network structure, not the identification of individuals.](img/dataviz/aggregated-network.png){fig-align="center" width="85%"}
