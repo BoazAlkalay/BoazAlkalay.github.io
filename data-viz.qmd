@@ -72,7 +72,11 @@ Restricting to nodes with actual brokerage opportunity (constraint < 1) and cont
 
 ### Interpretation
 
-<!-- Your interpretation section goes here -->
+Existing research on sex trafficking networks identifies a specific advantage women hold within them: an ability to connect with, and gain the trust of, other women. Under patriarchy, women are disproportionately the targets of violence — sexual and otherwise — most often at the hands of men, frequently men they already know. That shared experience of vulnerability creates a baseline of trust between women that trafficking networks can and do exploit. Women recruiting women isn't incidental; it's a structural feature of how these networks operate.
+
+None of this means patriarchy is really about gender. It's about power — who holds it, and who it can be directed against. Gender is simply the axis along which that power most often gets organized and legitimized; the same logic of domination shows up across other hierarchies too.
+
+The results above are consistent with that framing. Women in this network were significantly more likely to initiate contact and occupied a modest but statistically significant brokerage advantage over men — exactly the pattern the trafficking-network literature predicts: women doing more of the connective, trust-dependent work, while remaining structurally subordinate within the network's power hierarchy.
 
 ### Time Series Extension
 
