@@ -27,7 +27,7 @@ website:
 
 format:
   html:
-    theme: cerulean       
+    theme: sandstone     
     toc: true
 editor: source
 
