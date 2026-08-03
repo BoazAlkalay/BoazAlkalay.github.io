@@ -10,10 +10,17 @@ about:
 
 ## Goals
 
+I believe those who advance the bounds of knowledge bear responsibility for the direction of that work and what it's used for. Applying the sociological imagination to real-world data problems means looking past what methods are used to why they were chosen, and what that choice implies about the resulting data. As a graduate student in computational social science, I use NLP and social network analysis to understand how information, influence, and power move through real-world systems. I hope to put that work toward data for good — using these tools to make positive and meaningful impacts on the world.
+
 ## Education
+
+M.S., Data Analytics and Computational Social Science — UMass Amherst (expected Dec. 2026)
+
+B.A., Liberal Arts (Sociology & Computer Science) — UMass Lowell(received 2025)
 
 ## Experience
 
+Substitute Teacher, Sharon Public Schools — part-time, ongoing
 :::
 
 Thanks for checking out my web site!

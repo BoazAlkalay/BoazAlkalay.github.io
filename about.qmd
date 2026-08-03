@@ -1,6 +1,15 @@
 ---
 title: "About"
 ---
-Thank you for looking at my site which is still a work in progress.
+
+My first encounter with the spirit of computational social science came from my father's favorite science fiction series, Isaac Asimov's Foundation. I was captivated by the fictional discipline of Psychohistory — the idea that human history, in aggregate, might follow patterns precise enough to model mathematically. The in-universe Encyclopedia Galactica defines it as "that branch of mathematics which deals with the reactions of human conglomerates to fixed social and economic stimuli."
+
+Obviously, no such science actually exists — but the impulse behind it turned out to be real. That's what drew me to sociology, and later to the computational side of it: the conviction that how humans organize — networks, discourse, movements, institutions — can be modeled and understood, not just described.
+
+That's the throughline behind the two projects on this site. Mapping two decades of an elite communication network from released FOIA documents, or tracing how political podcasts frame the same events differently over time — both are, in a small way, attempts at the same thing Asimov's Gaal Dornick was reaching for: finding the pattern underneath the noise.
+
+I'm currently finishing my M.S. in Data Analytics and Computational Social Science at UMass Amherst, after a B.A. in Sociology and Computer Science from UMass Lowell.
+
+Thank you for looking at my site, which is still a work in progress.
 
 Feel free to reach out to me at boazalk@gmail.com

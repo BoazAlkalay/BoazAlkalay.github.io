@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "About Me",
     "section": "",
-    "text": "Thanks for checking out my web site!"
+    "text": "I believe those who advance the bounds of knowledge bear responsibility for the direction of that work and what it’s used for. Applying the sociological imagination to real-world data problems means looking past what methods are used to why they were chosen, and what that choice implies about the resulting data. As a graduate student in computational social science, I use NLP and social network analysis to understand how information, influence, and power move through real-world systems. I hope to put that work toward data for good — using these tools to make positive and meaningful impacts on the world.\n\n\n\nM.S., Data Analytics and Computational Social Science — UMass Amherst (expected Dec. 2026)\nB.A., Liberal Arts (Sociology & Computer Science) — UMass Lowell(received 2025)\n\n\n\nSubstitute Teacher, Sharon Public Schools — part-time, ongoing\nThanks for checking out my web site!"
   },
   {
     "objectID": "projects.html",
@@ -96,5 +96,26 @@
     "title": "Data Visualizations",
     "section": "Time Series Extension",
     "text": "Time Series Extension\nA separate analysis models monthly email volume and redaction density as time series (auto.arima()), and disaggregates redaction density by gender dyad and by Epstein’s direct involvement.\nTemporal baseline: the aggregate redaction density series requires a drift term to fit — ARIMA(1,1,1) with drift, confirming a systematic upward trend across 2010–2019. That drift disappears entirely in the subset of emails not directly involving Epstein — ARIMA(0,1,1), no drift — suggesting the upward trend is concentrated in Epstein-involved correspondence rather than being network-wide.\n\n\n\nMonthly redaction density by gender dyad, 2010–2019.\n\n\nGender dyad pattern: redaction density carries a stable ordering across the full period — F→F highest, then F→M, M→F, M→M lowest. This ordering holds across temporal resolutions and the full dataset.\n\n\n\nMonthly redaction density by gender dyad, faceted by Epstein involvement.\n\n\nDisaggregating by Epstein involvement shows where this pattern actually lives. In the From Epstein panel, all four dyads cluster low with no meaningful gender ordering — Epstein’s own outgoing emails are uniformly lightly redacted regardless of recipient sex. The To Epstein panel shows modest differentiation but no strong trend. The gender effect is concentrated almost entirely in the No Epstein panel, where F→F and F→M redaction density rise steadily and diverge from the male-sender dyads — suggesting this is a property of the broader network, not of Epstein’s direct correspondence.\nRead together with the network results: women were significantly more likely to initiate ties, occupied a significant (if modest) brokerage advantage, and their communications — particularly with other women — were the most heavily redacted in the corpus. Women’s roles in this network were both structurally central and disproportionately sensitive.\nLimitations: gender assignment relied on fuzzy matching and probabilistic inference, and some names were dropped where assignment failed. Redaction density is a proxy — the underlying redaction decisions, legal framework, and any changes to FOIA processing standards over the period aren’t observable from the data. The gender dyad and Epstein-involvement breakdowns above are descriptive; no formal interaction model (e.g. mixed effects, interrupted time series) has yet tested these differences directly."
+  },
+  {
+    "objectID": "index.html#goals",
+    "href": "index.html#goals",
+    "title": "About Me",
+    "section": "",
+    "text": "I believe those who advance the bounds of knowledge bear responsibility for the direction of that work and what it’s used for. Applying the sociological imagination to real-world data problems means looking past what methods are used to why they were chosen, and what that choice implies about the resulting data. As a graduate student in computational social science, I use NLP and social network analysis to understand how information, influence, and power move through real-world systems. I hope to put that work toward data for good — using these tools to make positive and meaningful impacts on the world."
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "About Me",
+    "section": "",
+    "text": "M.S., Data Analytics and Computational Social Science — UMass Amherst (expected Dec. 2026)\nB.A., Liberal Arts (Sociology & Computer Science) — UMass Lowell(received 2025)"
+  },
+  {
+    "objectID": "index.html#experience",
+    "href": "index.html#experience",
+    "title": "About Me",
+    "section": "",
+    "text": "Substitute Teacher, Sharon Public Schools — part-time, ongoing"
   }
 ]
