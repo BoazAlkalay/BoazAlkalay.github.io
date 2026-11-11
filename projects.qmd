@@ -15,6 +15,8 @@ The method changed a lot as I went. I started with TF-IDF word lists and word2ve
 
 The results are in an interactive dashboard. You can see where the shows sit in a given period and how each one moves over time. You can also compare the words that separate two shows and read the passages they come from. An LLM drafts the labels on the map's axes from the words at each end. The labels are marked as AI and shown next to those words, so readers can judge them for themselves.
 
+![Words that most separate Mark Levin (left) and Ben Shapiro (right) in how they use "iran", July to October 2026.](img/projects/podcast-word-pull.png){fig-align="center" width="85%"}
+
 A lot of what I learned was about communicating results. A position on the map reflects shared vocabulary, and a small gap between two shows may be noise. Readers need to know both of those things before the numbers are any use. I went through several rounds of feedback from people without a technical background and from outside design reviews. Each round changed the layout or the wording. Eventually I added a switch between plain and technical explanations, so the same page works for a general reader and for someone checking the methods. Results are labelled "clear difference" or "inconclusive" instead of reporting p-values, and every number is shown with its range.
 
 The project began in DACSS 758 (Text as Data) and I've kept building on it since.
