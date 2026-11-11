@@ -127,8 +127,8 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#academic-projects" id="toc-academic-projects" class="nav-link active" data-scroll-target="#academic-projects">Academic Projects</a>
   <ul class="collapse">
-  <li><a href="#project-1-epstein-email-network" id="toc-project-1-epstein-email-network" class="nav-link" data-scroll-target="#project-1-epstein-email-network">Project 1: Epstein Email Network</a></li>
-  <li><a href="#project-2-political-podcast-text-analysis" id="toc-project-2-political-podcast-text-analysis" class="nav-link" data-scroll-target="#project-2-political-podcast-text-analysis">Project 2: Political Podcast Text Analysis</a></li>
+  <li><a href="#project-1-political-podcast-text-analysis" id="toc-project-1-political-podcast-text-analysis" class="nav-link" data-scroll-target="#project-1-political-podcast-text-analysis">Project 1: Political Podcast Text Analysis</a></li>
+  <li><a href="#project-2-epstein-email-network" id="toc-project-2-epstein-email-network" class="nav-link" data-scroll-target="#project-2-epstein-email-network">Project 2: Epstein Email Network</a></li>
   </ul></li>
   <li><a href="#personal-projects" id="toc-personal-projects" class="nav-link" data-scroll-target="#personal-projects">Personal Projects</a>
   <ul class="collapse">
@@ -161,8 +161,24 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="academic-projects" class="level1">
 <h1>Academic Projects</h1>
-<section id="project-1-epstein-email-network" class="level2">
-<h2 class="anchored" data-anchor-id="project-1-epstein-email-network">Project 1: Epstein Email Network</h2>
+<section id="project-1-political-podcast-text-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="project-1-political-podcast-text-analysis">Project 1: Political Podcast Text Analysis</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/projects/podcast-term-map.png" class="img-fluid figure-img"></p>
+<figcaption>The dashboard’s similarity map for “iran”, July to October 2026. Each dot is one show in that 91-day period; the trails show where two selected shows sat in earlier periods.</figcaption>
+</figure>
+</div>
+<p>Over the past decade, podcasts have become a major channel for political and cultural conversation, with shows across the spectrum building large audiences, often with strong parasocial ties to their hosts. I wanted to see how different shows and ideological groups talk about the same topics, focusing on the vocabulary a show uses rather than the stance it takes. Following that vocabulary over time gives an empirical picture of what the political podcast world is discussing and how.</p>
+<p>I built the whole pipeline myself. I transcribed more than 80,000 episodes from about 60 shows, going back to March 2021, with Whisper on the UMass Unity GPU cluster. For a chosen term such as <em>iran</em>, <em>israel</em> or <em>trump</em>, I collect the nouns, names and adjectives around each mention. From those I build an à la carte embedding (Rodriguez, Spirling and Stewart 2023) for each show in each period, so every point on the map comes only from how that show used the word. Shows with few episodes look different partly by chance, so the distances between shows are corrected for that. Each distance also comes with a bootstrapped 90% interval.</p>
+<p>The method changed a lot as I went. I started with TF-IDF word lists and word2vec similarity, then moved to BERT sentence embeddings, clustering the contexts around each term and testing for change over time. The clusters were often readable, but they tracked which stories a show was covering more than how it talked about them, and the change-over-time tests never gave results I trusted. À la carte embeddings fixed both problems. They gave one comparable point per show per period, and the uncertainty could be measured directly.</p>
+<p>The results are in an interactive dashboard. You can see where the shows sit in a given period and how each one moves over time. You can also compare the words that separate two shows and read the passages they come from. An LLM drafts the labels on the map’s axes from the words at each end. The labels are marked as AI and shown next to those words, so readers can judge them for themselves.</p>
+<p>A lot of what I learned was about communicating results. A position on the map reflects shared vocabulary, and a small gap between two shows may be noise. Readers need to know both of those things before the numbers are any use. I went through several rounds of feedback from people without a technical background and from outside design reviews. Each round changed the layout or the wording. Eventually I added a switch between plain and technical explanations, so the same page works for a general reader and for someone checking the methods. Results are labelled “clear difference” or “inconclusive” instead of reporting p-values, and every number is shown with its range.</p>
+<p>The project began in DACSS 758 (Text as Data) and I’ve kept building on it since.</p>
+<p><a href="https://boazalkalay.github.io/podcast-term-map/">Live dashboard</a> · <a href="https://github.com/BoazAlkalay/podcast-term-map">GitHub</a> <!-- Add once the Data Viz walkthrough is written:  · [Walkthrough and in-depth example](data-viz.qmd) --></p>
+</section>
+<section id="project-2-epstein-email-network" class="level2">
+<h2 class="anchored" data-anchor-id="project-2-epstein-email-network">Project 2: Epstein Email Network</h2>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -193,9 +209,6 @@ ul.task-list li input[type="checkbox"] {
 <p>A time series extension separately models monthly redaction density with <code>auto.arima()</code>. The aggregate series shows a clear upward drift trend — which disappears when emails not directly involving Epstein are modeled alone, suggesting the drift tracks his centrality specifically rather than a general feature of the corpus. Redaction density also carries a stable gender pattern: F→F communications are the most heavily redacted, concentrated almost entirely among non-Epstein actors.</p>
 <p>This work was completed in collaboration with Mark Scott and Elizabeth Miller, and won Best Master’s Project at the computational social science fair.</p>
 <p><a href="./data-viz.html">Data visualizations &amp; full results</a> · <a href="https://github.com/BoazAlkalay">GitHub</a></p>
-</section>
-<section id="project-2-political-podcast-text-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="project-2-political-podcast-text-analysis">Project 2: Political Podcast Text Analysis</h2>
 </section>
 </section>
 <section id="personal-projects" class="level1">
